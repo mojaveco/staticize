@@ -13,7 +13,9 @@ cat <<EOT > public/pages/$PAGE_NAME.html
 EOT
 
 # Update the navigation to include the new page
-sed -i "/<\/ul>/i <li><a href=\"#\" data-page=\"$PAGE_NAME\">$CAPITALIZED_PAGE_NAME</a></li>" public/nav.html
+# For macOS, use the -e flag with sed, and provide an empty backup suffix
+sed -i '' "/<\/ul>/i\\
+<li><a href=\"#\" data-page=\"$PAGE_NAME\">$CAPITALIZED_PAGE_NAME</a></li>" public/nav.html
 
 echo "Page $PAGE_NAME.html created and added to the navigation!"
 
