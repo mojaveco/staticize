@@ -1,88 +1,93 @@
 # Staticize
 
-**Staticize** is a lightweight, fast, and modular static site generator that allows you to build static websites effortlessly. It comes with a simple dynamic content loader and page generator, making it perfect for developers who want to quickly create and deploy static sites with minimal setup.
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)  
+**Staticize** is a lightweight, fast, and modular static site generator. It helps developers build static websites effortlessly, with a focus on speed, simplicity, and minimal setup.
 
-## Features
+---
 
-- Dynamic loading of HTML components (e.g., nav, footer, content).
-- Modular architecture for easy page creation and management.
-- Custom page generator to automate adding and removing pages.
-- Flexible hosting options with built-in support for deploying via [Surge](https://surge.sh).
+## 🚀 Features
 
-## Getting Started
+- **Dynamic HTML loading** (e.g., nav, footer, content)
+- **Modular architecture** for easy page management
+- **Automated page generation** (add and remove pages instantly)
+- **Seamless deployment** with [Surge](https://surge.sh)
 
-### Installation
+---
 
-1. Clone this repository:
+## 📦 Project Structure
 
-   ```bash
-   git clone https://github.com/mojaveco/staticize.git
-   cd staticize
-   ```
+| Directory         | Description |
+|-------------------|-------------|
+| `public/`         | HTML files, including components (nav, footer) and pages |
+| `assets/css/`     | Stylesheets for your site |
+| `assets/js/`      | JavaScript for dynamic content loading |
+| `scripts/`        | Shell scripts for page generation, deployment, and cleanup |
+| `Makefile`        | Easy-to-use commands for site management |
 
-### Project Structure
+---
 
-- `public/`: Contains all the public HTML files, including components like `nav.html`, `footer.html`, and pages in the `pages/` folder.
-- `assets/css/`: Contains stylesheets for the project.
-- `assets/js/`: Contains JavaScript for dynamically loading content into the main layout.
-- `scripts/`: Contains the shell scripts for generating and destroying pages, deploying, and cleaning up.
-- `Makefile`: Provides easy-to-use commands for managing the site.
+## 🛠️ Getting Started
 
-### Usage
+### 1. Installation
 
-We provide several `make` commands for creating and managing your site.
+```bash
+git clone https://github.com/mojaveco/staticize.git
+cd staticize
+```
 
-#### 1. **Create a New Page**
+### 2. Usage
 
-You can easily create a new page using the `make create` command:
+Staticize uses `make` commands for effortless site management:
+
+#### ➕ Create a New Page
 
 ```bash
 make create <page-name>
 ```
 
-For example, to create an "About" page:
+Example:
 
 ```bash
 make create about
 ```
 
 This will:
-- Create `public/pages/about.html` with some boilerplate content.
-- Add a link to the navigation for the new page.
+- Generate `public/pages/about.html`
+- Add a link to the navigation bar
 
-#### 2. **Remove (Destroy) a Page**
-
-You can remove a page using the `make destroy` command:
+#### ➖ Remove (Destroy) a Page
 
 ```bash
 make destroy <page-name>
 ```
 
-For example, to remove the "About" page:
+Example:
 
 ```bash
 make destroy about
 ```
 
 This will:
-- Remove `public/pages/about.html`.
-- Remove the link to the page from the navigation in `nav.html`.
+- Remove `public/pages/about.html`
+- Remove the page link from the navigation
 
-#### 3. **Clean Up Temporary Files**
-
-To clean up any temporary files (e.g., `.tmp` or `.log` files), use the `make clean` command:
+#### 🧹 Clean Temporary Files
 
 ```bash
 make clean
 ```
 
-## Deployment
+Removes unnecessary files (e.g., `.tmp`, `.log`).
 
-For deploying the site, Staticize comes with a built-in `make deploy` command that allows you to deploy your site easily. The default deployment configuration is designed to work with [Surge](https://surge.sh).
+---
 
-### Prerequisites for Deployment (Optional)
+## 🌍 Deployment
 
-If you choose to deploy using Surge, you’ll need to install Surge:
+Deploy your site effortlessly with the built-in `make deploy` command.
+
+### Prerequisite (Optional for Surge)
+
+Install Surge globally:
 
 ```bash
 npm install --global surge
@@ -90,45 +95,43 @@ npm install --global surge
 
 ### Deploying Your Site
 
-To deploy your site, simply follow these steps:
-
-1. **Create a CNAME File**: Before deploying, create a `public/CNAME` file with your custom domain (e.g., `staticize.co`):
+1. **Create a CNAME File**:  
+   Add your custom domain to the `CNAME` file:
 
    ```bash
    echo "staticize.co" > public/CNAME
    ```
 
-2. **Run Deployment**: Once the `CNAME` file is in place, you can deploy the site by running:
+2. **Run the Deployment**:  
+   Use the `make deploy` command to deploy:
 
    ```bash
    make deploy
    ```
 
-This will deploy your site to the domain specified in the `CNAME` file. If you are using [Surge](https://surge.sh), the domain will be configured automatically.
+If you are using [Surge](https://surge.sh), the deployment will automatically configure your domain from the `CNAME` file.
 
-### Custom Domain Setup (for Surge)
-
-To use a custom domain (e.g., `staticize.co`) with Surge:
+#### 🌐 Custom Domain Setup (For Surge)
 
 1. Set up a **CNAME record** with your domain registrar:
-   - **Host/Name**: `www` (or leave blank for root domain).
-   - **Type**: `CNAME`.
-   - **Value**: `na-west1.surge.sh`.
+   - **Host/Name**: `www` or leave blank for root
+   - **Type**: `CNAME`
+   - **Value**: `na-west1.surge.sh`
 
-2. The site will be deployed using the custom domain defined in your `CNAME` file.
-
-3. (Optional) To enforce HTTPS for your custom domain:
+2. To enforce HTTPS for your custom domain:
 
    ```bash
    surge ssl staticize.co
    ```
 
-### Contributing
+---
 
-We welcome contributions! Please fork this repository, submit pull requests, or open issues if you find any bugs or have suggestions for improvements.
+## 🤝 Contributing
+
+We welcome contributions! Fork the repository, submit pull requests, or open issues if you find any bugs or have ideas for improvements.
 
 ---
 
-### License
+## 📜 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
