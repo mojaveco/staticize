@@ -29,6 +29,10 @@ deploy:
 clean:
 	@./scripts/clean.sh
 
+# Make a new Website
+website:
+	@bash scripts/create_website.sh
+
 # Catch-all target to prevent errors with additional arguments
 %:
 	@:
