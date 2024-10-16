@@ -3,22 +3,20 @@
 # Default behavior if no target is provided
 default: help
 
-# Define a rule for creating a page
-create:
-	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
-		echo "Error: Please provide a page name. Example: make create about"; \
-		exit 1; \
+# Make Page
+page:
+	@if [ -z "$(name)" ]; then \
+		echo "Error: You must provide a page name."; \
 	else \
-		./scripts/generate_page.sh $(filter-out $@,$(MAKECMDGOALS)); \
+		bash scripts/generate_page.sh $(name) nav=$(nav); \
 	fi
 
-# Define a rule for destroying a page (removing it)
-destroy:
-	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
-		echo "Error: Please provide a page name. Example: make destroy about"; \
-		exit 1; \
+# Delete Page
+delete:
+	@if [ -z "$(name)" ]; then \
+		echo "Error: You must provide a page name to delete."; \
 	else \
-		./scripts/destroy_page.sh $(filter-out $@,$(MAKECMDGOALS)); \
+		bash scripts/delete_page.sh $(name); \
 	fi
 
 # Deploy the site
@@ -40,11 +38,11 @@ website:
 # Help target (shows usage instructions)
 help:
 	@echo "Usage:"
-	@echo "  make create <page-name>                # Create a new page"
-	@echo "  make destroy <page-name>               # Remove an existing page"
-	@echo "  make deploy                            # Deploy the site to Surge"
-	@echo "  make clean                             # Clean up generated files"
+	@echo "  make page name=<page-name> nav=<true|false>    # Create a new page"
+	@echo "  make delete name=<page-name>                   # delete an existing page"
+	@echo "  make deploy                                    # Deploy the site to Surge"
+	@echo "  make clean                                     # Clean up generated files"
 	@echo ""
 	@echo "Examples:"
-	@echo "  make create about"
-	@echo "  make destroy about"
+	@echo "  make page name=about nav=true"
+	@echo "  make delete name=about"

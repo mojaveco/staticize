@@ -1,22 +1,50 @@
 #!/bin/bash
 
-# Get the page name from the argument
+# Check if a page name is provided
 PAGE_NAME=$1
-CAPITALIZED_PAGE_NAME="$(tr '[:lower:]' '[:upper:]' <<< ${PAGE_NAME:0:1})${PAGE_NAME:1}"
+NAV_OPTION=$2
 
-# Create the HTML file in the pages folder
-cat <<EOT > public/pages/$PAGE_NAME.html
-<h1>$CAPITALIZED_PAGE_NAME</h1>
-<p>This is the $CAPITALIZED_PAGE_NAME page content.</p>
-EOT
+echo "Page name: $PAGE_NAME"
+echo "Nav option: $NAV_OPTION"
 
-# Insert the new page into the navigation before </ul>
-echo "Updating navigation to include $PAGE_NAME..."
-sed -i '' "/<\/ul>/i\\
-<li><a href=\"#\" data-page=\"$PAGE_NAME\">$CAPITALIZED_PAGE_NAME</a></li>\\
-" public/nav.html
+if [ -z "$PAGE_NAME" ]; then
+  echo "Error: You must provide a page name."
+  exit 1
+fi
 
-# Ensure the </ul> tag is on its own line
-sed -i '' 's/<\/li><\/ul>/<\/li>\n<\/ul>/g' public/nav.html
+# Capitalize the first letter of the page name using awk
+CAPITALIZED_PAGE_NAME=$(echo "$PAGE_NAME" | awk '{ print toupper(substr($0,1,1)) tolower(substr($0,2)) }')
 
-echo "Page $PAGE_NAME.html created and added to the navigation!"
+# Define the website and public directory
+WEBSITE_DIR="websites/Staticize"  # Or dynamic if you'd like
+PUBLIC_DIR="$WEBSITE_DIR/public"
+PAGES_DIR="$PUBLIC_DIR/pages"
+NAV_FILE="$PUBLIC_DIR/layouts/nav.html"
+
+# Create the pages directory if it doesn't exist
+mkdir -p $PAGES_DIR
+
+# Create the new page file
+PAGE_FILE="$PAGES_DIR/$PAGE_NAME.html"
+if [ -f "$PAGE_FILE" ]; then
+  echo "Page '$PAGE_NAME.html' already exists."
+else
+  echo "<h1>$CAPITALIZED_PAGE_NAME</h1>" > "$PAGE_FILE"
+  echo "<p>This is the $PAGE_NAME page content.</p>" >> "$PAGE_FILE"
+  echo "Page $PAGE_NAME.html created successfully."
+fi
+
+# If nav=true, update the navigation
+if [ "$NAV_OPTION" == "nav=true" ]; then
+  echo "Updating navigation..."
+  if grep -q "$PAGE_NAME" "$NAV_FILE"; then
+    echo "Navigation already contains a link to $PAGE_NAME."
+  else
+    # Add the new page to the navigation without href, using data-page
+    sed -i '' "/<\/ul>/i\\
+    <li><a href=\"#\" data-page=\"$PAGE_NAME\">$CAPITALIZED_PAGE_NAME</a></li>" $NAV_FILE
+    echo "Page $PAGE_NAME added to the navigation."
+  fi
+else
+  echo "Navigation update skipped."
+fi
