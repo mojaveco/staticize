@@ -35,6 +35,16 @@ git clone https://github.com/mojaveco/staticize.git
 cd staticize
 ```
 
+### Git Version Control for Generated Websites
+
+By default, Staticize does not track user-generated websites within the framework repository. If you want to track changes for a specific website, you can initialize a new Git repository inside the generated website folder:
+
+Navigate to your website directory:
+   ```bash
+   cd websites/MyWebsite
+   git init
+   ```
+
 ### 2. Usage
 
 Staticize uses `make` commands for effortless site management:
