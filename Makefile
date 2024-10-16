@@ -3,23 +3,9 @@
 # Default behavior if no target is provided
 default: help
 
-# Define a rule for creating a page
-create:
-	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
-		echo "Error: Please provide a page name. Example: make create about"; \
-		exit 1; \
-	else \
-		./scripts/generate_page.sh $(filter-out $@,$(MAKECMDGOALS)); \
-	fi
-
-# Define a rule for destroying a page (removing it)
-destroy:
-	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
-		echo "Error: Please provide a page name. Example: make destroy about"; \
-		exit 1; \
-	else \
-		./scripts/destroy_page.sh $(filter-out $@,$(MAKECMDGOALS)); \
-	fi
+# Create Page
+page:
+	@bash scripts/generate_page.sh $(name) nav=$(nav)
 
 # Deploy the site
 deploy:
