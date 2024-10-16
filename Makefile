@@ -3,9 +3,21 @@
 # Default behavior if no target is provided
 default: help
 
-# Create Page
+# Make Page
 page:
-	@bash scripts/generate_page.sh $(name) nav=$(nav)
+	@if [ -z "$(name)" ]; then \
+		echo "Error: You must provide a page name."; \
+	else \
+		bash scripts/generate_page.sh $(name) nav=$(nav); \
+	fi
+
+# Delete Page
+delete:
+	@if [ -z "$(name)" ]; then \
+		echo "Error: You must provide a page name to delete."; \
+	else \
+		bash scripts/delete_page.sh $(name); \
+	fi
 
 # Deploy the site
 deploy:
@@ -26,11 +38,11 @@ website:
 # Help target (shows usage instructions)
 help:
 	@echo "Usage:"
-	@echo "  make create <page-name>                # Create a new page"
-	@echo "  make destroy <page-name>               # Remove an existing page"
-	@echo "  make deploy                            # Deploy the site to Surge"
-	@echo "  make clean                             # Clean up generated files"
+	@echo "  make page name=<page-name> nav=<true|false>    # Create a new page"
+	@echo "  make delete name=<page-name>                   # delete an existing page"
+	@echo "  make deploy                                    # Deploy the site to Surge"
+	@echo "  make clean                                     # Clean up generated files"
 	@echo ""
 	@echo "Examples:"
-	@echo "  make create about"
-	@echo "  make destroy about"
+	@echo "  make page name=about nav=true"
+	@echo "  make delete name=about"
